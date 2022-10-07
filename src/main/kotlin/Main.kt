@@ -17,7 +17,7 @@ suspend fun main() {
 
         message.reply {
             allowedMentions = AllowedMentionsBuilder() // suppress all mentions
-            content = "> " + actualContent.dummyTransform()
+            content = "> " + actualContent.timeTransform()
         }
     }
 
