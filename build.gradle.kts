@@ -14,7 +14,7 @@ repositories {
 
 dependencies {
     implementation("dev.kord:kord-core:0.8.0-M16")
-    implementation("org.slf4j:slf4j-simple:1.7.30")
+    implementation("org.slf4j:slf4j-simple:2.0.3")
     testImplementation(kotlin("test"))
 }
 

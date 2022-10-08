@@ -3,19 +3,43 @@ import dev.kord.core.behavior.interaction.response.respond
 import dev.kord.core.on
 import dev.kord.rest.builder.interaction.*
 import dev.kord.core.event.interaction.ChatInputCommandInteractionCreateEvent
+import java.time.LocalDate
+import java.time.ZoneId
+import java.time.ZonedDateTime
 
 suspend fun main() {
     val kord = Kord(System.getenv("BOT_TOKEN"))
 
-    kord.createGlobalChatInputCommand("time", "Gives you a timestamp for a given time") {
+    kord.createGlobalChatInputCommand("timestamp", "Gives you a timestamp for a given time") {
         int("hour", "Hour (24h)") {
             required = true
-            for (i in 0L..23L) {
-                choice("$i".padStart(2, '0'), i)
-            }
+            minValue = 0
+            maxValue = 23
         }
-        int("minute", "Minute") {
+        int("minute", "Minute (default 0)") {
+            minValue = 0
+            maxValue = 59
+        }
+        int("second", "Second (default 0)") {
+            minValue = 0
+            maxValue = 59
+        }
+        int("year", "Year (default current year)") {
+            minValue = 1970
+        }
+        int("month", "Month (default current month)") {
+            minValue = 1
+            maxValue = 12
+        }
+        int("day", "Day of month (default today's)") {
+            minValue = 1
+            maxValue = 31
+        }
+        string("format", "Timestamp tag format") {
             required = false
+            for (timestampFormat in TimestampFormat.values()) {
+                choice(timestampFormat.description, timestampFormat.name)
+            }
         }
     }
 
@@ -23,16 +47,26 @@ suspend fun main() {
         val deferredResponse = interaction.deferEphemeralResponse()
 
         val command = interaction.command
-        val hour = command.integers["hour"]!!
-        val minute = command.integers["minute"]
 
+        val hour = command.integers["hour"]!!.toInt()
+        val minute = command.integers["minute"]?.toInt()  ?: 0
+        val second = command.integers["second"]?.toInt()  ?: 0
+
+        val timezone = ZoneId.systemDefault() // todo let people change
+        val today = LocalDate.now(timezone)
+        val year = command.integers["year"]?.toInt() ?: today.year
+        val month = command.integers["month"]?.toInt() ?: today.month.value
+        val day = command.integers["day"]?.toInt()  ?: today.dayOfMonth
+
+        val format = TimestampFormat.valueOf(command.strings["format"] ?: TimestampFormat.DEFAULT.name)
+
+        val timestamp = ZonedDateTime.of(year, month, day, hour, minute, second, 0, timezone)
+            .toInstant()
+            .epochSecond
+
+        val tag = "<t:$timestamp${format.char?.let { ":$it" } ?: ""}>"
         deferredResponse.respond {
-            if (minute !in 0L..59L) {
-                content = "invalid minute value of '$minute', must be between 0 and 59!"
-                return@respond
-            }
-
-            content = "that's a total of ${hour * 60 + (minute ?: 0)} minutes!"
+            content = "Use `$tag`, it will look like $tag for you."
         }
     }
 
