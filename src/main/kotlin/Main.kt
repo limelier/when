@@ -31,7 +31,7 @@ suspend fun main() {
             minValue = 1
             maxValue = 12
         }
-        int("day", "Day of month (default today's)") {
+        int("day", "Day of month (default today's with no month, or '1' with a month)") {
             minValue = 1
             maxValue = 31
         }
@@ -56,7 +56,8 @@ suspend fun main() {
         val today = LocalDate.now(timezone)
         val year = command.integers["year"]?.toInt() ?: today.year
         val month = command.integers["month"]?.toInt() ?: today.month.value
-        val day = command.integers["day"]?.toInt()  ?: today.dayOfMonth
+        // most intuitive: use '1' as default if a month was specified, or today's day otherwise
+        val day = command.integers["day"]?.toInt()  ?: if (command.integers["month"] != null) 1 else today.dayOfMonth
 
         val format = TimestampFormat.valueOf(command.strings["format"] ?: TimestampFormat.DEFAULT.name)
 
