@@ -12,7 +12,6 @@ suspend fun main() {
 
     kord.createGlobalChatInputCommand("timestamp", "Gives you a timestamp for a given time") {
         int("hour", "Hour (24h)") {
-            required = true
             minValue = 0
             maxValue = 23
         }
@@ -48,7 +47,7 @@ suspend fun main() {
 
         val command = interaction.command
 
-        val hour = command.integers["hour"]!!.toInt()
+        val hour = command.integers["hour"]?.toInt() ?: 0
         val minute = command.integers["minute"]?.toInt()  ?: 0
         val second = command.integers["second"]?.toInt()  ?: 0
 
