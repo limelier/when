@@ -12,7 +12,7 @@ suspend fun main() {
     val kord = Kord(System.getenv("BOT_TOKEN"))
 
     kord.createGlobalChatInputCommand("timestamp", "Gives you a timestamp for a given time") {
-        string("timezone", "Timezone; ex: Europe/Bucharest (preferred) or +3, UTC+3, GMT+3, EET (may not match where you think depending on date)") {
+        string("timezone", "Timezone; ex: Europe/Bucharest (preferred) or +3, UTC+3, GMT+3, EET (misleading depending on date)") {
             required = true
         }
         int("hour", "Hour (24h, default 0)") {
