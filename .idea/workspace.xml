@@ -92,7 +92,7 @@
       <updated>1665125828346</updated>
       <workItem from="1665125829352" duration="11600000" />
       <workItem from="1665207230907" duration="4511000" />
-      <workItem from="1665211830851" duration="988000" />
+      <workItem from="1665211830851" duration="1021000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1665125961768</created>
@@ -136,7 +136,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665212808203</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Add default hour (midnight)">
+      <created>1665212845893</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1665212845893</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -160,6 +167,7 @@
     <MESSAGE value="Move to slash command" />
     <MESSAGE value="Add entire command, sans timezone (uses UTC for now)" />
     <MESSAGE value="Change day default depending on month" />
-    <option name="LAST_COMMIT_MESSAGE" value="Change day default depending on month" />
+    <MESSAGE value="Add default hour (midnight)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Add default hour (midnight)" />
   </component>
 </project>

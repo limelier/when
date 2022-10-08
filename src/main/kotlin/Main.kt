@@ -11,7 +11,7 @@ suspend fun main() {
     val kord = Kord(System.getenv("BOT_TOKEN"))
 
     kord.createGlobalChatInputCommand("timestamp", "Gives you a timestamp for a given time") {
-        int("hour", "Hour (24h)") {
+        int("hour", "Hour (24h, default 0)") {
             minValue = 0
             maxValue = 23
         }
