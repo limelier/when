@@ -5,6 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="4775d9f7-d846-4dde-abc7-a1d47bdb054d" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/kotlin/Main.kt" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/kotlin/Main.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -92,7 +93,7 @@
       <updated>1665125828346</updated>
       <workItem from="1665125829352" duration="11600000" />
       <workItem from="1665207230907" duration="4511000" />
-      <workItem from="1665211830851" duration="1021000" />
+      <workItem from="1665211830851" duration="3131000" />
     </task>
     <task id="LOCAL-00001" summary="Initial commit">
       <created>1665125961768</created>
@@ -143,7 +144,14 @@
       <option name="project" value="LOCAL" />
       <updated>1665212845893</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Edit hour description to add missing default">
+      <created>1665212877494</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1665212877494</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -168,6 +176,7 @@
     <MESSAGE value="Add entire command, sans timezone (uses UTC for now)" />
     <MESSAGE value="Change day default depending on month" />
     <MESSAGE value="Add default hour (midnight)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Add default hour (midnight)" />
+    <MESSAGE value="Edit hour description to add missing default" />
+    <option name="LAST_COMMIT_MESSAGE" value="Edit hour description to add missing default" />
   </component>
 </project>

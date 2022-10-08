@@ -3,6 +3,7 @@ import dev.kord.core.behavior.interaction.response.respond
 import dev.kord.core.on
 import dev.kord.rest.builder.interaction.*
 import dev.kord.core.event.interaction.ChatInputCommandInteractionCreateEvent
+import java.time.DateTimeException
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
@@ -11,6 +12,9 @@ suspend fun main() {
     val kord = Kord(System.getenv("BOT_TOKEN"))
 
     kord.createGlobalChatInputCommand("timestamp", "Gives you a timestamp for a given time") {
+        string("timezone", "Timezone; ex: Europe/Bucharest (preferred) or +3, UTC+3, GMT+3, EET (may not match where you think depending on date)") {
+            required = true
+        }
         int("hour", "Hour (24h, default 0)") {
             minValue = 0
             maxValue = 23
@@ -48,15 +52,23 @@ suspend fun main() {
         val command = interaction.command
 
         val hour = command.integers["hour"]?.toInt() ?: 0
-        val minute = command.integers["minute"]?.toInt()  ?: 0
-        val second = command.integers["second"]?.toInt()  ?: 0
+        val minute = command.integers["minute"]?.toInt() ?: 0
+        val second = command.integers["second"]?.toInt() ?: 0
 
-        val timezone = ZoneId.systemDefault() // todo let people change
+        val timezone = command.strings["timezone"]!!.let {
+            try {
+                ZoneId.of(it)
+            } catch (e: DateTimeException) {
+                deferredResponse.respond { content = "'$it' is not a valid timezone!" }
+                return@on
+            }
+        }
+
         val today = LocalDate.now(timezone)
         val year = command.integers["year"]?.toInt() ?: today.year
         val month = command.integers["month"]?.toInt() ?: today.month.value
         // most intuitive: use '1' as default if a month was specified, or today's day otherwise
-        val day = command.integers["day"]?.toInt()  ?: if (command.integers["month"] != null) 1 else today.dayOfMonth
+        val day = command.integers["day"]?.toInt() ?: if (command.integers["month"] != null) 1 else today.dayOfMonth
 
         val format = TimestampFormat.valueOf(command.strings["format"] ?: TimestampFormat.DEFAULT.name)
 
