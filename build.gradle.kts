@@ -14,6 +14,7 @@ repositories {
 
 dependencies {
     implementation("dev.kord:kord-core:0.8.0-M16")
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.2")
     implementation("org.slf4j:slf4j-simple:2.0.3")
     testImplementation(kotlin("test"))
 }

@@ -3,10 +3,13 @@ import dev.kord.core.behavior.interaction.response.respond
 import dev.kord.core.on
 import dev.kord.rest.builder.interaction.*
 import dev.kord.core.event.interaction.ChatInputCommandInteractionCreateEvent
+import mu.KotlinLogging
 import java.time.DateTimeException
 import java.time.LocalDate
 import java.time.ZoneId
 import java.time.ZonedDateTime
+
+private val logger = KotlinLogging.logger {}
 
 suspend fun main() {
     val kord = Kord(System.getenv("BOT_TOKEN"))
@@ -50,6 +53,7 @@ suspend fun main() {
         val deferredResponse = interaction.deferEphemeralResponse()
 
         val command = interaction.command
+        logger.info { "Sending /${command.rootName} response" }
 
         val hour = command.integers["hour"]?.toInt() ?: 0
         val minute = command.integers["minute"]?.toInt() ?: 0
@@ -82,5 +86,6 @@ suspend fun main() {
         }
     }
 
+    logger.info { "Bot initialized, starting now" }
     kord.login()
 }
