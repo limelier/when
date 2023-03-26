@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 import org.jooq.meta.jaxb.Logging
 
 plugins {
-    kotlin("jvm") version "1.8.0"
+    kotlin("jvm") version "1.8.10"
     id("nu.studer.jooq") version "8.1"
     application
 }
@@ -28,7 +28,6 @@ dependencies {
 
     // kotlin
     testImplementation(kotlin("test"))
-    implementation(kotlin("stdlib-jdk8"))
 }
 
 jooq {
@@ -40,12 +39,13 @@ jooq {
                 logging = Logging.WARN
                 jdbc.apply {
                     driver = "org.postgresql.Driver"
-                    url = "jdbc:postgresql://localhost:5432/when"
+                    url = "jdbc:postgresql://db:5432/when"
                     user = "postgres"
                     password = "postgres"
                 }
                 generator.apply {
                     name = "org.jooq.codegen.KotlinGenerator"
+                    generateSchemaSourceOnCompilation.set(false)
                     database.apply {
                         name = "org.jooq.meta.postgres.PostgresDatabase"
                         inputSchema = "public"
@@ -61,22 +61,29 @@ jooq {
     }
 }
 
-tasks.test {
-    useJUnitPlatform()
-}
+tasks {
+    test {
+        useJUnitPlatform()
+    }
+    withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = "19"
+    }
+    withType<JavaCompile> {
+        targetCompatibility = "19"
+    }
+    withType<Jar> {
+        manifest {
+            attributes["Main-Class"] = "MainKt"
+        }
 
-tasks.withType<KotlinCompile> {
-    kotlinOptions.jvmTarget = "1.8"
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+
+        configurations.compileClasspath.get().forEach {
+            from(if (it.isDirectory) it else zipTree(it))
+        }
+    }
 }
 
 application {
     mainClass.set("MainKt")
-}
-val compileKotlin: KotlinCompile by tasks
-compileKotlin.kotlinOptions {
-    jvmTarget = "1.8"
-}
-val compileTestKotlin: KotlinCompile by tasks
-compileTestKotlin.kotlinOptions {
-    jvmTarget = "1.8"
 }
